@@ -18,6 +18,9 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      <div className="absolute bottom-4 right-4 text-white text-sm">
+        Made with <span className="text-red-500">❤️</span> by Bibekjyoti
+      </div>
     </div>
   );
 };

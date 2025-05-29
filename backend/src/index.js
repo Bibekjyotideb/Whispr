@@ -1,6 +1,9 @@
 import { fileURLToPath } from "url";
 import path from "path";
 import dotenv from "dotenv";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const expressStaticGzip = require("express-static-gzip");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,9 +39,20 @@ app.use("/api/messages", messageRoutes);
 
 if (process.env.NODE_ENV === "production") {
   const distPath = path.resolve(__dirname, "../frontend/dist");
-  app.use(express.static(distPath));
 
-  app.get("/*", (_, res) => {
+  app.use(
+    "/",
+    expressStaticGzip(distPath, {
+      enableBrotli: true,
+      orderPreference: ["br", "gz"],
+      serveStatic: {
+        extensions: ["html"],
+      },
+    })
+  );
+
+  // Fallback to index.html for SPA routing
+  app.use((req, res, next) => {
     res.sendFile(path.join(distPath, "index.html"));
   });
 }

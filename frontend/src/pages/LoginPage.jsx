@@ -114,9 +114,9 @@ const LoginPage = () => {
         subtitle={"Sign in to continue your conversations and catch up with your messages."}
       />
 
-      <div className="absolute bottom-4 w-full text-center text-white text-sm">
-    Made with <span className="text-red-500">❤️</span> by Bibekjyoti
-  </div>
+        <div className="absolute bottom-4 right-4 text-white text-sm">
+          Made with <span className="text-red-500">❤️</span> by Bibekjyoti
+        </div>
     </div>
   );
 };

@@ -47,7 +47,7 @@ const Sidebar = () => {
           <button
             key={user._id}
             onClick={() => setSelectedUser(user)}
-            className={`w-full p-3 flex flex-col lg:flex-row items-center lg:items-start gap-2 lg:gap-3 hover:bg-base-300 transition-colors
+            className={`w-full px-3 py-2 flex flex-col items-center lg:flex-row lg:items-start gap-1 lg:gap-3 hover:bg-base-300 transition-colors
               ${selectedUser?._id === user._id ? "bg-base-300 ring-1 ring-base-300" : ""}`}
           >
             {/* Avatar */}
@@ -58,10 +58,7 @@ const Sidebar = () => {
                 className="size-12 object-cover rounded-full"
               />
               {onlineUsers.includes(user._id) && (
-                <span
-                  className="absolute bottom-0 right-0 size-3 bg-green-500 
-                  rounded-full ring-2 ring-zinc-900"
-                />
+                <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-zinc-900" />
               )}
             </div>
 
@@ -70,14 +67,12 @@ const Sidebar = () => {
               <div className="text-xs lg:text-sm font-medium truncate w-20 sm:w-auto">
                 {user.fullName}
               </div>
-              <div className="text-[10px] text-zinc-400 lg:hidden">
-                {onlineUsers.includes(user._id) ? "Online" : "Offline"}
-              </div>
-              <div className="hidden lg:block text-sm text-zinc-400">
+              <div className="text-[10px] text-zinc-400 lg:text-sm">
                 {onlineUsers.includes(user._id) ? "Online" : "Offline"}
               </div>
             </div>
           </button>
+
 
         ))}
 

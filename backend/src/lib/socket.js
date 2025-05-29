@@ -1,26 +1,29 @@
 import { Server } from "socket.io";
 import http from "http";
 
-export function setupSocket(app) {
-  const server = http.createServer(app);
+const userSocketMap = {};
 
-  const io = new Server(server, {
+let io; // will be set in setupSocket
+
+function getReceiverSocketId(userId) {
+  return userSocketMap[userId];
+}
+
+function setupSocket(app) {
+  const server = http.createServer(app);
+  io = new Server(server, {
     cors: {
-      origin: true,  // same origin allowed, no external frontend server needed
+      origin: ["http://localhost:5173"],
       credentials: true,
     },
   });
 
-  const userSocketMap = {};
-
   io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
+    console.log("A user connected", socket.id);
 
-    // Assuming userId sent via query params on socket connection
-    const userId = socket.handshake.query.userId;
-    if (userId) {
-      userSocketMap[userId] = socket.id;
-    }
+    // Use handshake.auth or handshake.query depending on your frontend
+    const userId = socket.handshake.auth?.userId || socket.handshake.query?.userId;
+    if (userId) userSocketMap[userId] = socket.id;
 
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
@@ -33,3 +36,10 @@ export function setupSocket(app) {
 
   return server;
 }
+
+// NAMED function to export
+function ioFunc() {
+  return io;
+}
+
+export { setupSocket, getReceiverSocketId, ioFunc as io };

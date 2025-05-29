@@ -14,43 +14,38 @@ import cors from "cors";
 import { connectDB } from "./lib/db.js";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
-import { setupSocket } from "./lib/socket.js";
+import { setupSocket } from "./lib/socket.js"; // updated import
 
-const app = express();
+const app = express(); // <-- create ONE app instance
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT;
 
-// Middlewares
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
-// Since backend serves frontend from same origin, no need to specify origin in CORS
-// or you can do minimal cors for APIs
-app.use(cors({
-  origin: true,  // allows same origin and others, adjust if needed
-  credentials: true,
-}));
-
-// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-// Serve frontend statically in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-  // Serve index.html for all other routes (SPA fallback)
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
   });
 }
 
-// Setup socket.io server passing the express app
-const server = setupSocket(app);
+// --- THIS IS THE CRUCIAL CHANGE: ---
+const server = setupSocket(app); // pass your app to setupSocket, get server
 
 server.listen(PORT, () => {
-  console.log("Server running on PORT:", PORT);
+  console.log("server is running on PORT:" + PORT);
   connectDB();
 });

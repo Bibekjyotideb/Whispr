@@ -35,12 +35,14 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  const distPath = path.resolve(__dirname, "../frontend/dist");
+  app.use(express.static(distPath));
 
- // app.get("*", (req, res) => {
- //   res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
- // });
+  app.get("*", (_, res) => {
+    res.sendFile(path.join(distPath, "index.html"));
+  });
 }
+
 
 // --- THIS IS THE CRUCIAL CHANGE: ---
 const server = setupSocket(app); // pass your app to setupSocket, get server

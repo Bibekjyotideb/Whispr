@@ -14,14 +14,11 @@ import cors from "cors";
 import { connectDB } from "./lib/db.js";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
-import { app, server } from "./lib/socket.js";
+import { setupSocket } from "./lib/socket.js"; // updated import
 
-
-
-
+const app = express(); // <-- create ONE app instance
 
 const PORT = process.env.PORT;
-
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -44,6 +41,9 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
   });
 }
+
+// --- THIS IS THE CRUCIAL CHANGE: ---
+const server = setupSocket(app); // pass your app to setupSocket, get server
 
 server.listen(PORT, () => {
   console.log("server is running on PORT:" + PORT);

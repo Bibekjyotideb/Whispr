@@ -148,6 +148,10 @@ const SignUpPage = () => {
         title="Join our community"
         subtitle="Connect with friends, share moments, and stay in touch with your loved ones."
       />
+
+      <div className="absolute bottom-4 w-full text-center text-white text-sm">
+    Made with <span className="text-red-500">❤️</span> by Bibekjyoti
+  </div>
     </div>
   );
 };

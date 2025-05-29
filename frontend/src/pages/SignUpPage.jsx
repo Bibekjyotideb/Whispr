@@ -149,9 +149,9 @@ const SignUpPage = () => {
         subtitle="Connect with friends, share moments, and stay in touch with your loved ones."
       />
 
-      <div className="absolute bottom-4 w-full text-center text-white text-sm">
-    Made with <span className="text-red-500">❤️</span> by Bibekjyoti
-  </div>
+      <div className="absolute bottom-4 right-4 text-white text-sm">
+        Made with <span className="text-red-500">❤️</span> by Bibekjyoti
+      </div>
     </div>
   );
 };

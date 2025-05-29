@@ -7,6 +7,9 @@
     "dev": "nodemon src/index.js",
     "start": "node src/index.js"
   },
+  "engines": {
+    "node": "22.10.0"
+  },
   "keywords": [],
   "author": "",
   "type": "module",

@@ -64,6 +64,21 @@ const Sidebar = () => {
                 />
               )}
             </div>
+
+            {/* User Info */}
+            <div className="text-center lg:text-left">
+              <div className="text-xs lg:text-sm font-medium truncate w-20 sm:w-auto">
+                {user.fullName}
+              </div>
+              <div className="text-[10px] text-zinc-400 lg:hidden">
+                {onlineUsers.includes(user._id) ? "Online" : "Offline"}
+              </div>
+              <div className="hidden lg:block text-sm text-zinc-400">
+                {onlineUsers.includes(user._id) ? "Online" : "Offline"}
+              </div>
+            </div>
+          </button>
+
         ))}
 
         {filteredUsers.length === 0 && (
